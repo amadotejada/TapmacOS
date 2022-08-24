@@ -31,7 +31,7 @@ USER_ID=$(/usr/bin/id -u "$CURRENT_USER")
 ###################################################################################################
 customicon="/usr/local/.ventura_icon.png"
 macosname="Ventura"
-targetosverion="12.5.12"
+targetosverion="13.0.0"
 description=$(echo"$message")
 heading="Update Now  macOS "$macosname" "$targetosverion""
 defer_button="Defer Update"
@@ -89,6 +89,7 @@ defer_check() {
           -button1 "$update_button" -icon "$customicon" -iconSize 128 -timeout 600 -countdown -alignCountdown right -defaultButton 1)
       fi
       if [[ ${check} -eq 0 ]] && [[ ${check} != "" ]]; then
+        echo "Update: No deferral left, showing dialog"
         run_updates
       fi
     else
@@ -171,7 +172,6 @@ run_updates() {
 Note: Stay connected to power source"
   echo "Prompting System Preferences > Software Update..."
   open "/System/Library/PreferencePanes/SoftwareUpdate.prefPane"
-  sleep 1
   dialog=$("$jamfHelper" -windowType utility -windowPosition "ur" -icon "$customicon" -title "$heading" -description "$message" -timeout 15)
   exit 0
 }
